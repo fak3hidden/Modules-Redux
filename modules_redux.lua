@@ -1,6 +1,5 @@
 --[[
     Modules Redux [V6.3] - FULL VERSION
-    Update: Red/Green Circular Toggles, Spaz Fling, Full ESP Suite
 ]]
 
 local HttpService = game:GetService("HttpService")
@@ -12,8 +11,7 @@ local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
--- Constants
-local ConfigPath = [[C:\Users\morte\AppData\Local\Potassium\workspace\Configs]]
+local ConfigPath = [[C:\Users\\AppData\Local\Potassium\workspace\Configs]]
 local TargetPlaceId = 17625359962
 local IsRageAllowed = (game.PlaceId == TargetPlaceId)
 
@@ -21,7 +19,7 @@ pcall(function()
     if makefolder and not isfolder(ConfigPath) then makefolder(ConfigPath) end
 end)
 
--- Global Configuration Table
+
 local Config = {
     Advantage = { Aimbot = false, Smoothing = 0.2, Radius = 100, ShowFOV = true, TriggerBot = false, TriggerDelay = 50 },
     Visual = { Box = false, Tracer = false, Health = false, Name = false, Distance = false, MaxDistance = 1000 },
@@ -32,7 +30,7 @@ local Config = {
 local UIRegistry = {}
 local SelectedPlayer = nil
 
--- Colors
+
 local UI_Colors = {
     Accent = Color3.fromRGB(80, 150, 255),
     Enabled = Color3.fromRGB(46, 204, 113), -- Green
@@ -41,28 +39,28 @@ local UI_Colors = {
     TopBar = Color3.fromRGB(20, 20, 20)
 }
 
--- Drawing Objects (FOV)
+
 local FOVCircle = Drawing.new("Circle")
 FOVCircle.Thickness = 1; FOVCircle.NumSides = 100; FOVCircle.Radius = Config.Advantage.Radius
 FOVCircle.Filled = false; FOVCircle.Visible = false; FOVCircle.Color = UI_Colors.Accent
 
--- UI SETUP
+
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
 ScreenGui.Name = "ModulesRedux_V6_3"
 ScreenGui.ResetOnSpawn = false
 
--- 1. EXIT UI
+
 local ExitFrame = Instance.new("Frame", ScreenGui)
 ExitFrame.Size = UDim2.new(0, 320, 0, 140); ExitFrame.Position = UDim2.new(0.5, -160, 0.5, -70); ExitFrame.BackgroundColor3 = UI_Colors.MainBG; ExitFrame.Visible = false; ExitFrame.ZIndex = 100
 Instance.new("UICorner", ExitFrame)
 local YesBtn = Instance.new("TextButton", ExitFrame); YesBtn.Size = UDim2.new(0, 130, 0, 32); YesBtn.Position = UDim2.new(0, 20, 0, 80); YesBtn.BackgroundColor3 = UI_Colors.Enabled; YesBtn.Text = "YES"; YesBtn.TextColor3 = Color3.new(1,1,1); YesBtn.ZIndex = 101; Instance.new("UICorner", YesBtn)
 local NoBtn = Instance.new("TextButton", ExitFrame); NoBtn.Size = UDim2.new(0, 130, 0, 32); NoBtn.Position = UDim2.new(1, -150, 0, 80); NoBtn.BackgroundColor3 = UI_Colors.Disabled; NoBtn.Text = "NO"; NoBtn.TextColor3 = Color3.new(1,1,1); NoBtn.ZIndex = 101; Instance.new("UICorner", NoBtn)
 
--- 2. TOGGLE BUTTON
+
 local ToggleBtn = Instance.new("TextButton", ScreenGui)
 ToggleBtn.Size = UDim2.new(0, 100, 0, 30); ToggleBtn.Position = UDim2.new(0, 20, 1, -50); ToggleBtn.BackgroundColor3 = UI_Colors.TopBar; ToggleBtn.Text = "TOGGLE UI"; ToggleBtn.TextColor3 = UI_Colors.Accent; ToggleBtn.Visible = false; Instance.new("UICorner", ToggleBtn)
 
--- 3. MAIN FRAME
+
 local MainFrame = Instance.new("Frame", ScreenGui)
 MainFrame.Size = UDim2.new(0, 500, 0, 400); MainFrame.Position = UDim2.new(0.5, -250, 0.5, -200); MainFrame.BackgroundColor3 = UI_Colors.MainBG; MainFrame.BorderSizePixel = 0
 
@@ -79,7 +77,7 @@ Instance.new("UIListLayout", TabHolder).FillDirection = Enum.FillDirection.Horiz
 
 local ContentArea = Instance.new("Frame", MainFrame); ContentArea.Size = UDim2.new(1, -20, 1, -65); ContentArea.Position = UDim2.new(0, 10, 0, 60); ContentArea.BackgroundTransparency = 1
 
--- Tab / UI Builders
+
 local function CreateTab(name)
     local TabBtn = Instance.new("TextButton", TabHolder); TabBtn.Size = UDim2.new(0, 83, 1, 0); TabBtn.BackgroundTransparency = 1; TabBtn.Text = name:upper(); TabBtn.TextColor3 = Color3.new(0.5, 0.5, 0.5); TabBtn.FontFace = Font.fromEnum(Enum.Font.Code); TabBtn.TextSize = 10
     local TabPage = Instance.new("ScrollingFrame", ContentArea); TabPage.Size = UDim2.new(1, 0, 1, 0); TabPage.Visible = false; TabPage.BackgroundTransparency = 1; TabPage.ScrollBarThickness = 2; TabPage.BorderSizePixel = 0
@@ -197,7 +195,6 @@ FlingBtn.MouseButton1Click:Connect(function()
         task.spawn(function()
             local t = tick()
             while tick() - t < 2 do
-                -- SPAZ FLING LOGIC
                 hrp.CFrame = targetHRP.CFrame * CFrame.new(math.random(-2,2), 0, math.random(-2,2)) * CFrame.Angles(math.random(-360,360), math.random(-360,360), math.random(-360,360))
                 hrp.Velocity = Vector3.new(800000, 800000, 800000)
                 RunService.Heartbeat:Wait()
@@ -240,7 +237,7 @@ RefreshBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- ESP ENGINE
+
 local DrawObjects = {}
 local function CreateESP(p)
     local o = { Box = Drawing.new("Square"), Tracer = Drawing.new("Line"), Health = Drawing.new("Line"), Name = Drawing.new("Text"), Dist = Drawing.new("Text") }
@@ -254,7 +251,7 @@ local function RemoveESP(p) if DrawObjects[p] then for _, v in pairs(DrawObjects
 Players.PlayerAdded:Connect(CreateESP); Players.PlayerRemoving:Connect(RemoveESP)
 for _, p in pairs(Players:GetPlayers()) do if p ~= LocalPlayer then CreateESP(p) end end
 
--- MAIN LOOP
+
 local BodyVel, BodyGyro, lastShot = nil, nil, 0
 RunService.RenderStepped:Connect(function()
     local char = LocalPlayer.Character; local hrp = char and char:FindFirstChild("HumanoidRootPart"); local hum = char and char:FindFirstChildOfClass("Humanoid")
@@ -316,7 +313,7 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- UI Interactions
+
 local dragging, dragStart, startPos
 TopBar.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = true; dragStart = input.Position; startPos = MainFrame.Position end end)
 UserInputService.InputChanged:Connect(function(input) if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then local delta = input.Position - dragStart; MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y) end end)
